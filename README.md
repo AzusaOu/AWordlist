@@ -9,4 +9,6 @@ update 1.1.0 : 2016.10.28
   - Now the script can adapt to both Windows and other platforms that support Python.
   - Add the function that can record the words you have seen and count how many times you've forgotten them. 
   - And you can type the command "tt r [num]" to review the words you've seen. The priority would base on the counting which the former line mentioned.
-
+  
+update 1.1.3 : 2016.11.06
+  - Now it can speak the word! (MacOS only)
