@@ -7,6 +7,7 @@
 # ver 1.0 : 2016.10.06
 # update 1.0.1 : 2016.10.20 - Add process display and Any Key Continue.
 # update 1.1.0 : 2016.10.28 - Combine two versions; Add forgetting record.
+# update 1.1.3 : 2016.11.06 - Now it can speak the word! (MacOS only)
 # ================================
 
 from random import shuffle
@@ -43,7 +44,11 @@ def filelist():
 		os.system('dir')
 	# This function is designed for Linux
 	else:
-		os.system('ls -hl') 
+		os.system('ls -hl')
+
+def tts(content, cv):
+	if 'Darwin' in platform.platform():
+		os.system('say '+content+' -v '+cv)
 
 # Get from Koyume(140514)
 # ------------------------------------------
@@ -90,6 +95,7 @@ def welcome(f_List):
 # 2016.10.20~Azuya: Add the process display and any button can make it continue.
 # 2016.10.25~Azuya: Add a function which can record how many times is a word forgetted.
 # 2016.10.28~Azuya: Add 'tt r' mode.
+# 2016.11.06~Azuya: Now it can speak.
 # ------------------------------------------
 def selftest(num, wList, command='normal'):
 	finished = 0
@@ -135,6 +141,7 @@ def selftest(num, wList, command='normal'):
 					record.append([i[0], i[1], 0])
 				# <---------------------------------
 				print(('\n'+i[0]+' ({0}/{1})').format(finished, num))
+				tts(i[0], 'Kyoko')
 				print('|')
 				sta = getchar()
 				print(i[1] + '...[y/q?]')
@@ -166,6 +173,7 @@ def selftest(num, wList, command='normal'):
 			for i in word4test:
 				print(('\n'+i[0]+' ({0}/{1})').format(finished, num))
 				print('(You have forgot this word for {0} times.)'.format(i[-1]))
+				tts(i[0], 'Kyoko')
 				print('|')
 				sta = getchar()
 				print(i[1] + '...[y/q?]')
