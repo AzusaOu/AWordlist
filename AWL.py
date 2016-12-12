@@ -96,6 +96,8 @@ def loadwords(f_List):
 
 def randintlist(num, irangex, irangey):
 	randlist = []
+	if irangey <= 0:
+		return randlist
 	for i in range(num):
 		rtmp = randint(irangex, irangey)
 		while((rtmp in randlist) == True):
@@ -121,9 +123,10 @@ def listmaker(num, wList, command='normal', record=[]):
 			lenOld = len(record)
 			lenNew = lenList - lenOld
 
-			if(num < lenNew):
-		#		nNew = int(num * lenNew / lenList)
+			if(num < lenNew/0.6 and num < lenOld/0.4):
 				nNew = int(0.6 * num)
+			elif num < lenNew:
+				nNew = int(num * lenNew / lenList)
 			else:
 				nNew = lenNew
 				
