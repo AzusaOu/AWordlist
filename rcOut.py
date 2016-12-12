@@ -15,10 +15,9 @@ for i in fl:
 	if i.split('.')[-1] == '_st':
 		rwl.extend(bin_in(i))
 rwl = sorted(rwl, key = lambda rwl:rwl[-1], reverse = True)
-print(rwl)
 strRwl = ''
 for i in rwl:
-	if i[-1] == 0:
+	if i[-1] <= 3:
 		break
 	strRwl += ('[%d] %s\n\t%s\n\n' % (i[-1], i[0], i[1]))
 
