@@ -12,3 +12,12 @@ update 1.1.0 : 2016.10.28
   
 update 1.1.3 : 2016.11.06
   - Now it can speak the word! (MacOS only)
+
+update 1.1.4 : 2016.11.15
+  - Change the filelist() into default scripts in Python.
+  
+update 1.2.0 : 2016.11.21
+  - Make sure that every normal test would contain new words.
+
+update 1.2.1 : 2016.12.12
+  - Bug fixed.
