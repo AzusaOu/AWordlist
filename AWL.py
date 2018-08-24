@@ -3,6 +3,7 @@
 # AWordList
 # Made by Azuya, BEPC
 # Since I want to learn Japanese:)
+# Run in Python 2.x
 
 # ver 1.0.0 : 2016.10.06
 # update 1.0.1 : 2016.10.20 - Add process display and Any Key Continue.
@@ -11,11 +12,14 @@
 # update 1.1.4 : 2016.11.15 - Change the filelist() into default scripts in Python.
 # update 1.2.0 : 2016.11.21 - Make sure that every normal test would contain new words.
 # update 1.2.1 : 2016.12.12 - Bug fixed.
+# update 1.2.2 : 2018.08.15 - Fix enter issues of English.
 # ================================
 
 from random import shuffle, randint
-import 	platform
 import	os
+
+if os.name == 'nt':
+	os.system('chcp 65001')
 
 # Core
 # ============================================================
@@ -25,7 +29,7 @@ def getchar(s=''):
 		print(s)
 	# http://stackoverflow.com/questions/510357/python-read-a-single-character-from-the-user
 	# This function is designed for Win
-	if 'Windows' in platform.platform():
+	if os.name == 'nt':
 		ch = msvcrt.getch()
 
 	# http://blog.csdn.net/marising/article/details/3173848
@@ -79,15 +83,18 @@ def loadwords(f_List):
 	wList = []
 	sTmp = ''
 	iSta = 0
-	f = open(f_List, 'r')
-	sTitle = f.readline().replace('\n','')
-	sTmp = f.readline().replace('\n','')
-	while(sTmp!='###'):
-		lTmp = sTmp.split(' - ')
-		wList.append(lTmp)
-		sTmp = f.readline().replace('\n','')
-		iSta += 1
-	f.close()
+
+	with open(f_List, 'r') as o:
+		sTitle = o.readline()
+		while True:
+			sTmp = o.readline()
+			# print sTmp
+			if sTmp[0] == '#' or sTmp == '':
+				break
+			lTmp = sTmp.split(' - ')
+			wList.append(lTmp)
+			iSta += 1
+
 	global name4inf
 	name4inf = f_List + '._st'
 	if os.path.exists(name4inf) == False:
@@ -178,7 +185,7 @@ def listmaker(num, wList, command='normal', record=[]):
 # ============================================================
 def welcome(f_List):
 	sTitle, wList, iCount = loadwords(f_List)
-	print('Title  :< ' +sTitle+ ' >')
+	print('Title  :< ' +sTitle.replace('\n', '')+ ' >')
 	print('Amount :' +str(iCount))
 	return sTitle, wList
 
@@ -216,7 +223,7 @@ def selftest(num, wList, command='normal'):
 				# tts(i[0], 'Kyoko')
 				print('|')
 				sta = getchar()
-				print(i[1] + '...[y/q?]')
+				print(i[1].replace('\n', '') + '...[y/q?]')
 				sta = getchar()
 				if sta == 'y':
 					word4test.remove(i)
@@ -283,7 +290,7 @@ def helplist(content):
 # Main UI
 # ============================================================
 if __name__ =="__main__":
-	if 'Windows' in platform.platform():
+	if os.name == 'nt':
 		import  msvcrt
 	else:
 		import  sys, tty, termios
@@ -300,7 +307,7 @@ if __name__ =="__main__":
 				# file = 'kg.wl'	# Debug.
 				try:
 					sTitle, wList = welcome(file)
-					cha = sTitle +'~$ '
+					cha = sTitle.replace('\n', '') +'~$ '
 				except:
 					print('File does not exist...')
 
@@ -341,8 +348,8 @@ if __name__ =="__main__":
 
 			else:
 				print('Invalid command. -h for help.')
-		except Exception, e:
+		# except Exception, e:
+		except:
 			print('\nAn error has occurred. If this info appears continually, please try to restart.')
-			print('### '+str(e))
-
+			raise
 
